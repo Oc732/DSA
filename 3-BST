@@ -1,180 +1,200 @@
 #include <iostream>
 using namespace std;
-class node
-{
- public:
-  int data;
-  node* left;
-  node* right;
+
+class node {
+public:
+    int data;
+    node* left;
+    node* right;
 };
-class bst
-{
- public:
-  node* root;
-  int cnt;
-  bst()
-  {
-    root=NULL;
-    cnt=0;
-  }
-  void insert();
-  void inorder(node* temp);
-  void preorder(node* temp);
-  void smallest();
-  void mirror(node* root);
-  void largest();
-  int search(int key);
-  int height(node* root);
+
+class bst {
+public:
+    node* root;
+    int cnt;
+    bst() {
+        root = NULL;
+        cnt = 0;
+    }
+
+    void insert();
+    void inorder(node* temp);
+    void preorder(node* temp);
+    void smallest();
+    void largest();
+    void mirror(node* root);
+    int search(int key);
+    int height(node* root);
 };
-void bst::insert()
-{
- node *newnode,*temp;
- newnode=new node();
- newnode->left=NULL;
- newnode->right=NULL;
- cout<<"Insert data in new node:";
- cin>>newnode->data;
- if(root==NULL)
-  {
-    root=newnode;
-    cout<<"Node inserted successfully."<<endl;
-  }
- else
-  {
-    int flag=0;
-    temp=root;
-    while(flag==0)
-    {
-     if(newnode->data < temp->data)
-     {
-        	 if(temp->left==NULL)
-      {
-       temp->left=newnode;
-       cout<<"Node inserted successfully."<<endl;
-       flag=1;
-      }
-      else
-      {
-       temp=temp->left;
-      }
-     }
-    else if(newnode->data > temp->data)
-    {
-     if(temp->right==NULL)
-     {
-      temp->right=newnode;
-      cout<<"Node inserted successfully."<<endl;
-      flag=1;
-     }
-     else
-     {
-      temp=temp->right;
-     }
+
+void bst::insert() {
+    node* newnode = new node();
+    newnode->left = NULL;
+    newnode->right = NULL;
+    cout << "Insert data in new node: ";
+    cin >> newnode->data;
+
+    if (root == NULL) {
+        root = newnode;
+        cout << "Node inserted successfully." << endl;
+    } else {
+        node* temp = root;
+        while (true) {
+            if (newnode->data < temp->data) {
+                if (temp->left == NULL) {
+                    temp->left = newnode;
+                    cout << "Node inserted successfully." << endl;
+                    break;
+                } else {
+                    temp = temp->left;
+                }
+            } else if (newnode->data > temp->data) {
+                if (temp->right == NULL) {
+                    temp->right = newnode;
+                    cout << "Node inserted successfully." << endl;
+                    break;
+                } else {
+                    temp = temp->right;
+                }
+            } else {
+                cout << "Data already exists." << endl;
+                break;
+            }
+        }
     }
-    else
-    {
-     cout<<"Data already exists."<<endl;
-     flag=1;
+}
+
+void bst::inorder(node* temp) {
+    if (temp != NULL) {
+        inorder(temp->left);
+        cout << temp->data << " ";
+        cnt++;
+        inorder(temp->right);
     }
-  }
- }
 }
-void bst::inorder(node* temp)
-{
- if(temp!=NULL)
- {
-  inorder(temp->left);
-  cout<<temp->data<<" ";
-  cnt++;
-  inorder(temp->right);
- }
-}
-void bst::preorder(node* temp)
-{
- if(temp!=NULL)
- {
-  cout<<temp->data<<" ";
-  preorder(temp->left);
-  preorder(temp->right);
- }
-}
-void bst::smallest()
-{
- node *temp;;
- temp=root;
- while(temp->left!=NULL)
- {
-  temp=temp->left;
- }
- cout<<"Smallest element is:"<<temp->data<<endl;
-}
-void bst::largest()
-{
- node *temp;;
- temp=root;
- while(temp->right!=NULL)
- {
-  temp=temp->right;
- }
- cout<<"Largest element is:"<<temp->data<<endl;
-}
-void bst::mirror(node* root)
-{
- node* temp;
- if(root!=NULL)
- {
-  temp=root->left;
-  root->left=root->right;
-  root->right=temp;
- }
-}
-int bst::search(int key)
-{
- node* temp;
- temp=root;
- while(1)
- {
-  if(key<temp->data)
-  {
-    if(temp->left != NULL)
-    {
-     temp=temp->left;
+
+void bst::preorder(node* temp) {
+    if (temp != NULL) {
+        cout << temp->data << " ";
+        preorder(temp->left);
+        preorder(temp->right);
     }
-    else
-     return 0;
-  }
-  else if(key>temp->data)
-  {
-    if(temp->right != NULL)
-    {
-     temp=temp->right;
+}
+
+void bst::smallest() {
+    if (root == NULL) {
+        cout << "Tree is empty." << endl;
+        return;
     }
-    else
-     return 0;
-  }
-  else
-  {
-    return 1;
-  }
- }
+    node* temp = root;
+    while (temp->left != NULL) {
+        temp = temp->left;
+    }
+    cout << "Smallest element is: " << temp->data << endl;
 }
-int bst::height(node* root)
-{
- int rh,lh;
- if(root==NULL)
-      	return 0;
- else if(root->left==NULL && root->right==NULL)
-  return 0;
- rh=height(root->right);
- lh=height(root->left);
- if(rh>lh)
-  return (rh+1);
- else
-  return (lh+1);
+
+void bst::largest() {
+    if (root == NULL) {
+        cout << "Tree is empty." << endl;
+        return;
+    }
+    node* temp = root;
+    while (temp->right != NULL) {
+        temp = temp->right;
+    }
+    cout << "Largest element is: " << temp->data << endl;
 }
-int main()
-{
- bst obj;
- int ch;
- do
-     {
+
+void bst::mirror(node* root) {
+    if (root != NULL) {
+        mirror(root->left);
+        mirror(root->right);
+        node* temp = root->left;
+        root->left = root->right;
+        root->right = temp;
+    }
+}
+
+int bst::search(int key) {
+    node* temp = root;
+    while (temp != NULL) {
+        if (key < temp->data) {
+            temp = temp->left;
+        } else if (key > temp->data) {
+            temp = temp->right;
+        } else {
+            return 1; // Found
+        }
+    }
+    return 0; // Not found
+}
+
+int bst::height(node* root) {
+    if (root == NULL)
+        return 0;
+    int lh = height(root->left);
+    int rh = height(root->right);
+    return 1 + max(lh, rh);
+}
+
+int main() {
+    bst obj;
+    int ch, key;
+    do {
+        cout << "\n----- BST Operations Menu -----\n";
+        cout << "1. Insert\n";
+        cout << "2. Inorder Traversal\n";
+        cout << "3. Preorder Traversal\n";
+        cout << "4. Find Smallest Element\n";
+        cout << "5. Find Largest Element\n";
+        cout << "6. Mirror the Tree\n";
+        cout << "7. Search Element\n";
+        cout << "8. Find Height of Tree\n";
+        cout << "9. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> ch;
+        switch (ch) {
+            case 1:
+                obj.insert();
+                break;
+            case 2:
+                obj.cnt = 0;
+                cout << "Inorder Traversal: ";
+                obj.inorder(obj.root);
+                cout << "\nTotal nodes: " << obj.cnt << endl;
+                break;
+            case 3:
+                cout << "Preorder Traversal: ";
+                obj.preorder(obj.root);
+                cout << endl;
+                break;
+            case 4:
+                obj.smallest();
+                break;
+            case 5:
+                obj.largest();
+                break;
+            case 6:
+                obj.mirror(obj.root);
+                cout << "Tree has been mirrored.\n";
+                break;
+            case 7:
+                cout << "Enter element to search: ";
+                cin >> key;
+                if (obj.search(key))
+                    cout << "Element found.\n";
+                else
+                    cout << "Element not found.\n";
+                break;
+            case 8:
+                cout << "Height of the tree: " << obj.height(obj.root) << endl;
+                break;
+            case 9:
+                cout << "Exiting program.\n";
+                break;
+            default:
+                cout << "Invalid choice.\n";
+        }
+    } while (ch != 9);
+    return 0;
+}
