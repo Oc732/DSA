@@ -168,3 +168,35 @@ int main()
      }while(ch != 3);
      return 0;
 }
+
+
+-------MENU-------
+1. Insert
+2. Display
+3. Exit
+Enter your choice: 1
+
+Enter your data: 5
+
+Do you want to add more node?(y/n)y
+
+Enter your data: 1
+
+Do you want to add more node?(y/n)y
+
+Enter your data: 10
+
+Do you want to add more node?(y/n)n
+
+-------MENU-------
+1. Insert
+2. Display
+3. Exit
+Enter your choice: 2
+1. 5 10
+-------MENU-------
+1. Insert
+2. Display
+3. Exit
+Enter your choice: 3
+gescoe@gescoe-OptiPlex-3010:~/Desktop/SE-A-5$
