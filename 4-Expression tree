@@ -186,3 +186,60 @@ int main()
      }while(ch != 5);
      return 0;
 }
+
+
+
+--------MENU-------
+1. Push
+2. Pop
+3. Display
+4. Expression Tree
+5. Exit
+Enter your choice: 1
+
+Enter element to push: 1
+
+--------MENU-------
+1. Push
+2. Pop
+3. Display
+4. Expression Tree
+5. Exit
+Enter your choice: 1
+
+Enter element to push: 2
+
+--------MENU-------
+1. Push
+2. Pop
+3. Display
+4. Expression Tree
+5. Exit
+Enter your choice: 2
+
+Element has been popped2
+--------MENU-------
+1. Push
+2. Pop
+3. Display
+4. Expression Tree
+5. Exit
+Enter your choice: 3
+1
+--------MENU-------
+1. Push
+2. Pop
+3. Display
+4. Expression Tree
+5. Exit
+Enter your choice: 4
+
+Enter a prefix expression: +--a*bc/def
+a-b*c-d/e
+--------MENU-------
+1. Push
+2. Pop
+3. Display
+4. Expression Tree
+5. Exit
+Enter your choice: 5
