@@ -1,0 +1,161 @@
+#include <iostream>
+#define max 20
+using namespace std;
+
+class set
+{
+     int A[max], cnt;
+     public:
+     set()
+     {
+          for(int i=0; i<max; i++)
+          {
+              A[i] = '\0';
+          }
+          cnt = 0;
+     }
+     void insert(void);
+     void display(void);
+     int search(int);
+     void size(void);
+     void del(void);
+     void union1(set, set);
+     set union2(set);
+     void intersection(set, set);
+     void minus(set, set);
+     void subset(set, set);
+     void reset(void);
+};
+void set :: insert(void)
+{
+     int x;
+     cout << "\nEnter element to insert: ";
+     cin >> x;
+     A[cnt] = x;
+     cnt++;
+}
+void set :: display(void)
+{
+     cout << "\nSet contents are as follows...";
+     for(int i=0; i<cnt; i++)
+     {
+          cout << A[i] << " ";
+     }
+}
+void set :: size(void)
+{
+     cout << "\nThe size of the set is: " << cnt;
+}
+int set :: search(int x)
+{
+     for(int i=0; i<max; i++)
+     {
+          if(A[i] == x)
+          {
+              cout << "\nElement found...";
+              return i;
+          }
+     }
+     return -1;
+}
+void set :: del(void)
+{
+     int x, index;
+     cout << "\nEnter element to delete: ";
+     cin >> x;
+     index = search(x);
+     for(int i=index; i<max; i++)
+     {
+          A[i] = A[i+1];
+     }
+     cnt--;
+}
+void set :: union1(set m, set n)
+{
+     for(int i=0; i<m.cnt; i++)
+     {
+          A[i] = m.A[i];
+     }
+     cnt = m.cnt;
+     for(int i=0; i<n.cnt; i++)
+     {
+          if(search(n.A[i]) == -1)
+          {
+              A[cnt] = n.A[i];
+              cnt++;
+          }
+     }
+}
+set set :: union2(set k)
+{
+     set temp;
+     for(int i=0; i<cnt; i++)
+     {
+          temp.A[i] = A[i];
+     }
+     temp.cnt = cnt;
+     for(int i=0; i<k.cnt; i++)
+     {
+          if(search(k.A[i]) == -1)
+          {
+              temp.A[temp.cnt] = k.A[i];
+              temp.cnt++;
+          }
+     }
+     return temp;
+}
+void set :: intersection(set m, set n)
+{
+     for(int i=0; i<n.cnt; i++)
+     {
+          if(m.search(n.A[i]) != -1)
+          {
+              A[cnt] = n.A[i];
+              cnt++;
+          }
+     }
+}
+void set :: minus(set m, set n)
+{
+     for(int i=0; i<n.cnt; i++)
+     {
+          if(m.search(n.A[i]) == -1)
+          {
+              A[cnt] = n.A[i];
+              cnt++;
+          }
+     }
+}
+void set :: subset(set m, set n)
+{
+     int scnt = 0;
+     for(int i=0; i<n.cnt; i++)
+     {
+          if(m.search(n.A[i]) != -1)
+          {
+              scnt++;
+          }
+     }
+     if(scnt == n.cnt)
+     {
+          cout << "\nB is a subset of A";
+     }
+     else
+     {
+          cout << "\nB is not a subset of A";
+     }
+}
+void set :: reset(void)
+{
+     for(int i=0; i<cnt; i++)
+     {
+          A[i] = '\0';
+     }
+     cnt = 0;
+}
+int main()
+{
+     set s, a, b;
+     int ch;
+     do
+     {
