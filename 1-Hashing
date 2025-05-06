@@ -1,133 +1,146 @@
 #include <iostream>
+#include <iomanip>
 using namespace std;
-
-class HashTable{
-
-public:
-int key;
-int index;
-
-};
 
 class Hashing
 {
- private:
- HashTable H[10];
- public:
-
- Hashing(){
-
- for(int i=0;i<10;i++)
- {
- H[i].key=-1;
- H[i].index=i;
- }
- }
-
-  void display();
-  void insert(int p_ch);
-  int LinearP(int position);
-  int QuadraticP(int position);
+    long long* hashTable;
+    int size;
+    public:
+        void createTable()
+        {
+            cout << "Enter size of Hash Table: ";
+            cin >> size; // 10
+            hashTable = new long long[size];//long
+            for(int i = 0; i < size; i++)
+                hashTable[i] = -1;
+            cout << "Hash Table Created Successfully!" << endl;
+        }
+        void insertNumber()
+        {
+            long long mobile;
+            int index;
+            cout << "Enter mobile number: ";
+            cin >> mobile;
+            index = mobile % size; 
+            if(hashTable[index] == -1)
+            {
+                hashTable[index] = mobile;
+                cout << "Number stored at index " << index << endl;
+            }
+            else
+            {
+                cout << "Collision Occured!" << endl;
+                cout << "1. Linear Probing" << endl;
+                cout << "2. Quadratic Probing" << endl;
+                cout << "Enter your choice : ";
+                int choice;
+                cin >> choice;
+                switch(choice)
+                {
+                    case 1:
+                        cout << "Collision handling using Linear Probing" << endl;
+                        linearProbing(mobile, index);
+                        break;
+                    case 2:
+                        cout << "Collision handling using Quadratic Probing" << endl;
+                        quadraticProbing(mobile, index);
+                        break;
+                    default:
+                        cout << "Invalid Choice!" << endl;
+                }
+            }
+        }
+        void linearProbing(long long mobile, int index)
+        {
+            for(int i = (index+1)%size, count = 0; count < size; i++, count++)
+            {
+                if(hashTable[i] == -1)
+                {
+                    hashTable[i] = mobile;
+                    cout << "Number stored at index " << i << " using linear probing" << endl;
+                    break;
+                }
+                if(i == size - 1)
+                    i = -1;
+            }
+        }
+        void quadraticProbing(long long mobile, int index)
+        {
+            int newIndex;
+            for(int i = 0; i < size; i++)
+            {
+                newIndex = (index + i*i)%10;
+                if(hashTable[newIndex] == -1)
+                {
+                    hashTable[newIndex] = mobile;
+                    cout << "Number stored at index " << newIndex << " using quadratic probing" << endl;
+                    break;
+                }
+            }
+        }
+        void displayHashTable()
+        {
+            cout << "Hash Table Elements" << endl;
+            for(int i = 0; i < size; i++)
+            {
+                std::printf("%2d. ", i+1);
+                cout << hashTable[i] << endl;
+            }
+        }
+        void search()
+        {
+            long long mob;
+            cout << "Enter Mobile Number to search : "; 
+            cin >> mob;
+            for(int i = 0; i < size; i++)
+            {
+                if(hashTable[i] == mob)
+                {
+                    cout << "Found at index : " << i << endl;
+                    return;
+                }
+            }
+            cout << "Mobile Number not found" << endl;
+        }
 };
-
-void Hashing::display()
+int main()
 {
-  cout<<"Hash Table is"<<endl;
-  for(int i=0;i<10;i++)
-  {
-     cout<<H[i].key<<"\t\t\t\t\t"<<H[i].index<<endl;
+    Hashing ht;
+    bool flag = true;
+    while(flag)
+    {
+        cout << "***********Menu***********" << endl;
+        cout << "1. Create Hash Table" << endl;
+        cout << "2. Insert Mobile Number" << endl;
+        cout << "3. Display Hash Table" << endl;
+        cout << "4. Search Mobile Number" << endl;
+        cout << "5. Exit" << endl;
 
-  }
-
-}
-
-void Hashing::insert(int p_ch)
-{
- int pos;
- int key1;
-
- cout<<"Enter the Telephone number\n";
- cin>>key1;
- pos=key1%10;
-
- if(H[pos].key==-1)
- {
-  H[pos].key=key1;
- }
- else if(p_ch==1){
- int temp=LinearP(pos);
- H[temp].key=key1;
- }
- else if(p_ch==2){
- int temp=QuadraticP(pos);
- H[temp].key=key1;
- }
-}
-
-int Hashing::LinearP(int position) {
-     for (int i = 0; i < 10; i++) {
-          int newPos = (position + i) % 10;
-          if (H[newPos].key == -1) {
-              return newPos;
-          }
-     }
-     return -1;
-}
-
-
-int Hashing::QuadraticP(int position) {
-     for (int i = 0; i < 10; i++) {
-          int newPos = (position + (i * i)) % 10;
-          if (H[newPos].key == -1) {
-              return newPos;
-          }
-     }	
-     return -1;
-}
-
-
-int main(){
-
-Hashing obj;
-int ch;
-int p_choice;
-
-do{
-  cout<<"----MENU----\n";
-  cout<<"1. Insert\n";
-  cout<<"2. Display\n";
-  cout<<"3. Exit\n";
-  cout<<"Enter your choice\n";
-  cin>>ch;
-  if(ch==1){
-  cout<<"Enter the probing choice\n1. Linear Probing\n2. Quadratic Probing\n";
-  cin>>p_choice;
-  }
-  else{
-  p_choice=0;
-  }
-  switch(ch){
-  case 1:
-  {
-    obj.insert(p_choice);
-    break;
-  }
-  case 2:
-  {
-  obj.display();
-  break;
-  }
-  case 3:
-  {
-       cout<<"End of program";
-       break;
-  }
-  default:
-  {
-  cout<<"Enter valid choice :\n";
-  }
-  }
-
-}while(ch!=3);
-
+        cout << "Enter your choice : ";
+        int choice;
+        cin >> choice;
+        
+        switch(choice)
+        {
+            case 1:
+                ht.createTable();
+                break;
+            case 2:
+                ht.insertNumber();
+                break;
+            case 3:
+                ht.displayHashTable();
+                break;
+            case 4:
+                ht.search();
+                break;
+            case 5:
+                cout << "End of Program" << endl;
+                flag = false;
+                break;
+            default:
+                cout << "Invalid Choice!" << endl;
+        }
+    }
 }
